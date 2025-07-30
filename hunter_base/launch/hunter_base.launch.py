@@ -15,9 +15,9 @@ def generate_launch_description():
 
     port_name_arg = DeclareLaunchArgument('port_name', default_value='can0',
                                          description='CAN bus name, e.g. can0')
-    odom_frame_arg = DeclareLaunchArgument('odom_frame', default_value='odom',
+    odom_frame_arg = DeclareLaunchArgument('odom_frame', default_value='odom_bae',
                                            description='Odometry frame id')
-    base_link_frame_arg = DeclareLaunchArgument('base_frame', default_value='base_link',
+    base_link_frame_arg = DeclareLaunchArgument('base_frame', default_value='base_link_bae',
                                                 description='Base link frame id')
     odom_topic_arg = DeclareLaunchArgument('odom_topic_name', default_value='odom',
                                            description='Odometry topic name')
