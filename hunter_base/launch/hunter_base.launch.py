@@ -19,7 +19,7 @@ def generate_launch_description():
                                            description='Odometry frame id')
     base_link_frame_arg = DeclareLaunchArgument('base_frame', default_value='base_link_bae',
                                                 description='Base link frame id')
-    odom_topic_arg = DeclareLaunchArgument('odom_topic_name', default_value='odom',
+    odom_topic_arg = DeclareLaunchArgument('odom_topic_name', default_value='odom_bae',
                                            description='Odometry topic name')
 
     simulated_robot_arg = DeclareLaunchArgument('simulated_robot', default_value='false',
@@ -41,6 +41,15 @@ def generate_launch_description():
                 'simulated_robot': launch.substitutions.LaunchConfiguration('simulated_robot'),
                 'control_rate': launch.substitutions.LaunchConfiguration('control_rate'),
         }])
+    
+    velocity_extractor_node = launch_ros.actions.Node(
+        package='hunter_base',
+        executable='velocity_extractor_node',
+        output='screen',
+        emulate_tty=True,
+        parameters=[{
+                'use_sim_time': launch.substitutions.LaunchConfiguration('use_sim_time'),
+        }])
 
     return LaunchDescription([
         use_sim_time_arg,
@@ -50,5 +59,6 @@ def generate_launch_description():
         odom_topic_arg,
         simulated_robot_arg,
         sim_control_rate_arg,
-        hunter_base_node
+        hunter_base_node,
+        velocity_extractor_node
     ])
