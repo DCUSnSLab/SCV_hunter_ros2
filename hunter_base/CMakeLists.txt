@@ -15,8 +15,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-add_compile_options(-Wno-ignored-qualifiers)
-
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -59,11 +57,7 @@ add_executable(hunter_base_node
 target_link_libraries(hunter_base_node ugv_sdk ${dependencies} ascent)
 ament_target_dependencies(hunter_base_node rclcpp tf2 tf2_ros std_msgs nav_msgs sensor_msgs hunter_msgs tf2_geometry_msgs ${dependencies})
 
-add_executable(velocity_extractor_node
-    src/velocity_extractor_node.cpp)
-ament_target_dependencies(velocity_extractor_node rclcpp std_msgs hunter_msgs)
-
-install(TARGETS hunter_base_node velocity_extractor_node
+install(TARGETS hunter_base_node
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch

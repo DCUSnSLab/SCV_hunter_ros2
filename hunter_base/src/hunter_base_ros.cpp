@@ -114,10 +114,14 @@ void HunterBaseRos::Run() {
 
     // connect to robot and setup ROS subscription
     if (port_name_.find("can") != std::string::npos) {
-      robot_->Connect(port_name_);
-      robot_->EnableCommandedMode();
+      if (robot_->Connect(port_name_)) {
+        robot_->EnableCommandedMode();
         // std::cout << "EnableCommandedMode" << std::endl;
         std::cout << "Using CAN bus to talk with the robot" << std::endl;
+      } else {
+        std::cout << "Failed to connect to the robot CAN bus" << std::endl;
+        return;
+      }
     } else {
       std::cout << "Please check the specified port name is a CAN port"
                 << std::endl;
@@ -133,6 +137,7 @@ void HunterBaseRos::Run() {
       // robot_->EnableCommandedMode();
       rclcpp::spin_some(shared_from_this());
       rate.sleep();
-    }
+    // }
+  }
 }
 }  // namespace westonrobot
