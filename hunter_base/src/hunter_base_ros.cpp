@@ -20,6 +20,7 @@ HunterBaseRos::HunterBaseRos(std::string node_name)
   this->declare_parameter("odom_frame", rclcpp::ParameterValue("odom"));
   this->declare_parameter("base_frame", rclcpp::ParameterValue("base_link"));
   this->declare_parameter("odom_topic_name", rclcpp::ParameterValue("odom"));
+  this->declare_parameter("publish_tf", rclcpp::ParameterValue(true));  // TF 발행 여부
 
   this->declare_parameter("is_hunter_mini", rclcpp::ParameterValue(false));
   this->declare_parameter("is_omni_wheel", rclcpp::ParameterValue(false));
@@ -37,6 +38,7 @@ void HunterBaseRos::LoadParameters() {
   this->get_parameter_or<std::string>("base_frame", base_frame_, "base_link");
   this->get_parameter_or<std::string>("odom_topic_name", odom_topic_name_,
                                       "odom");
+  this->get_parameter_or<bool>("publish_tf", publish_tf_, true);  // TF 발행 여부
 
 
 
@@ -48,6 +50,7 @@ void HunterBaseRos::LoadParameters() {
   std::cout << "- odom frame name: " << odom_frame_ << std::endl;
   std::cout << "- base frame name: " << base_frame_ << std::endl;
   std::cout << "- odom topic name: " << odom_topic_name_ << std::endl;
+  std::cout << "- publish tf: " << std::boolalpha << publish_tf_ << std::endl;  // TF 발행 여부 출력
 
   std::cout << "- simulated robot: " << std::boolalpha << simulated_robot_
             << std::endl;
@@ -110,6 +113,7 @@ void HunterBaseRos::Run() {
     messenger->SetOdometryFrame(odom_frame_);
     messenger->SetBaseFrame(base_frame_);
     messenger->SetOdometryTopicName(odom_topic_name_);
+    messenger->SetPublishTf(publish_tf_);  // TF 발행 여부 설정
     if (simulated_robot_) messenger->SetSimulationMode(sim_control_rate_);
 
     // connect to robot and setup ROS subscription

@@ -38,6 +38,7 @@ class HunterBaseRos : public rclcpp::Node {
 
   bool simulated_robot_ = false;
   int sim_control_rate_ = 50;
+  bool publish_tf_ = true;  // TF 발행 여부
   
   int version=2;
   bool is_omni_ = false;

@@ -21,6 +21,8 @@ def generate_launch_description():
                                                 description='Base link frame id')
     odom_topic_arg = DeclareLaunchArgument('odom_topic_name', default_value='odometry/wheel',
                                            description='Odometry topic name')
+    publish_tf_arg = DeclareLaunchArgument('publish_tf', default_value='false',
+                                           description='Whether to publish TF (odom->base_link)')
 
     simulated_robot_arg = DeclareLaunchArgument('simulated_robot', default_value='false',
                                                    description='Whether running with simulator')
@@ -38,6 +40,7 @@ def generate_launch_description():
                 'odom_frame': launch.substitutions.LaunchConfiguration('odom_frame'),
                 'base_frame': launch.substitutions.LaunchConfiguration('base_frame'),
                 'odom_topic_name': launch.substitutions.LaunchConfiguration('odom_topic_name'),
+                'publish_tf': launch.substitutions.LaunchConfiguration('publish_tf'),
                 'simulated_robot': launch.substitutions.LaunchConfiguration('simulated_robot'),
                 'control_rate': launch.substitutions.LaunchConfiguration('control_rate'),
         }])
@@ -54,6 +57,7 @@ def generate_launch_description():
         odom_frame_arg,
         base_link_frame_arg,
         odom_topic_arg,
+        publish_tf_arg,
         simulated_robot_arg,
         sim_control_rate_arg,
         hunter_base_node,
