@@ -1,0 +1,6 @@
+# Hunter Teleop System Configuration
+# This file is read by launch file (NOT ros2 params)
+
+launch_params:
+  use_sim: true             # true: Mock Robot, false: Real Hardware
+  use_remote_teleop: true   # true: Enable UDP/TwistMux/WebRTC

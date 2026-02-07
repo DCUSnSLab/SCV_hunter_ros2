@@ -23,6 +23,7 @@ install(PROGRAMS
   scripts/udp_teleop.py
   scripts/mock_hunter_base.py
   scripts/teleop_status.py
+  scripts/udp_status_sender.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

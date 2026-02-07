@@ -12,14 +12,15 @@ def generate_launch_description():
     pkg_hunter_teleop = get_package_share_directory('hunter_teleop')
     pkg_hunter_base = get_package_share_directory('hunter_base')
 
-    config_file_path = os.path.join(pkg_hunter_teleop, 'config', 'system_params.yaml')
+    system_config_path = os.path.join(pkg_hunter_teleop, 'config', 'system_params.yaml')
+    node_params_path = os.path.join(pkg_hunter_teleop, 'config', 'node_params.yaml')
     twist_mux_config = os.path.join(pkg_hunter_teleop, 'config', 'twist_mux.yaml')
     go2rtc_config = os.path.join(pkg_hunter_teleop, 'config', 'go2rtc.yaml')
 
     default_use_sim = 'false'
     default_use_remote = 'true'
 
-    with open(config_file_path, 'r') as f:
+    with open(system_config_path, 'r') as f:
         config = yaml.safe_load(f)
         launch_params = config.get('launch_params', {})
         default_use_sim = str(launch_params.get('use_sim', False)).lower()
@@ -54,18 +55,27 @@ def generate_launch_description():
         package='hunter_teleop',
         executable='udp_teleop.py',
         output='screen',
-        parameters=[config_file_path], # Load params from YAML
+        parameters=[node_params_path],
         condition=IfCondition(LaunchConfiguration('use_remote_teleop'))
     )
 
     # 2.1 Status Monitor (Condition: use_remote_teleop=true)
     status_monitor_node = Node(
         package='hunter_teleop',
-        executable='teleop_status_node.py',
+        executable='teleop_status.py',
         output='screen',
         parameters=[{
             'remote_enabled': LaunchConfiguration('use_remote_teleop')
         }],
+        condition=IfCondition(LaunchConfiguration('use_remote_teleop'))
+    )
+
+    # 2.2 UDP Status Sender (Vehicle -> Server)
+    udp_status_sender_node = Node(
+        package='hunter_teleop',
+        executable='udp_status_sender.py',
+        output='screen',
+        parameters=[node_params_path],
         condition=IfCondition(LaunchConfiguration('use_remote_teleop'))
     )
 
@@ -100,5 +110,6 @@ def generate_launch_description():
         twist_mux_node,
         udp_receiver_node,
         status_monitor_node,
+        udp_status_sender_node,
         # go2rtc_cmd
     ])

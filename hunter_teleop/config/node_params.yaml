@@ -1,0 +1,15 @@
+# ROS2 Node Parameters
+# This file is loaded via --params-file
+
+udp_teleop_node:
+  ros__parameters:
+    port: 5000
+    timeout: 0.5
+    max_linear_vel: 1.5
+    max_angular_vel: 0.5
+
+udp_status_sender_node:
+  ros__parameters:
+    server_ip: "127.0.0.1"    # Server VPN IP (Tailscale)
+    server_port: 5001
+    send_rate: 20.0           # Hz

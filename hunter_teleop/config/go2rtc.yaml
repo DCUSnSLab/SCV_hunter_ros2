@@ -1,7 +1,6 @@
 streams:
-  # Method 1: Direct USB Camera Access (Lowest Latency, No ROS overhead)
-  # Check device path with `ls /dev/video*`
-  hunter_cam: ffmpeg:device?video=/dev/video0&input_format=mjpeg&w=640&h=480
+  # Direct USB Camera Access (V4L2)
+  hunter_cam: v4l2:device?video=/dev/video0&input_format=yuyv422&video_size=640x480&framerate=30
 
 api:
   listen: ":1984" # HTTP API Port

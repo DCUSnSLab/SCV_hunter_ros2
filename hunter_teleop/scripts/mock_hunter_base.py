@@ -32,7 +32,7 @@ class MockHunterBase(Node):
         # Timer (50Hz)
         self.timer = self.create_timer(0.02, self.update_odom)
         
-        self.get_logger().info("🤖 Mock Hunter Base Started. Listening to /cmd_vel...")
+        self.get_logger().info("Mock Hunter Base Started. Listening to /cmd_vel...")
 
     def cmd_vel_callback(self, msg):
         # Update target velocity
