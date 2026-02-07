@@ -1,0 +1,14 @@
+streams:
+  # Method 1: Direct USB Camera Access (Lowest Latency, No ROS overhead)
+  # Check device path with `ls /dev/video*`
+  hunter_cam: ffmpeg:device?video=/dev/video0&input_format=mjpeg&w=640&h=480
+
+api:
+  listen: ":1984" # HTTP API Port
+  origin: "*"     # CORS allow
+
+srtp:
+  listen: ":8443" # WebRTC Port
+
+webrtc:
+  listen: ":8555"
