@@ -58,6 +58,17 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('use_remote_teleop'))
     )
 
+    # 2.1 Status Monitor (Condition: use_remote_teleop=true)
+    status_monitor_node = Node(
+        package='hunter_teleop',
+        executable='teleop_status_node.py',
+        output='screen',
+        parameters=[{
+            'remote_enabled': LaunchConfiguration('use_remote_teleop')
+        }],
+        condition=IfCondition(LaunchConfiguration('use_remote_teleop'))
+    )
+
     # 3. go2rtc Media Server (Condition: use_remote_teleop=true)
     go2rtc_cmd = ExecuteProcess(
         cmd=['go2rtc', '-c', go2rtc_config],
@@ -88,5 +99,6 @@ def generate_launch_description():
         mock_hunter_node,
         twist_mux_node,
         udp_receiver_node,
+        status_monitor_node,
         # go2rtc_cmd
     ])
