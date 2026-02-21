@@ -4,6 +4,7 @@
 
 * hunter_base: a ROS wrapper around Hunter SDK to monitor and control the robot
 * hunter_msgs: hunter related message definitions
+* hunter_teleop_mux: command multiplexer that routes navigation or remote teleop commands to the vehicle with safety E-stop logic
 
 
 ## Communication interface setup
@@ -73,7 +74,3 @@ Nvidia Jeston TX2/Xavier/XavierNX have CAN controller(s) integrated in the main 
     z: 0.0" 
 
     ```
-
-**SAFETY PRECAUSION**: 
-
-Always have your remote controller ready to take over the control whenever necessary. 
