@@ -1,6 +1,6 @@
 mux_node:
   ros__parameters:
-    remote_status: false
+    remote_status: true
     cmd_vel_timeout: 0.5
     teleop_timeout: 0.5
     rate: 50.0
