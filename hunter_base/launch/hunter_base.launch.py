@@ -51,6 +51,12 @@ def generate_launch_description():
         output='screen',
         emulate_tty=True)
 
+    hunter_state_parser_node = launch_ros.actions.Node(
+        package='hunter_base',
+        executable='hunter_state_parser_node',
+        output='screen',
+        emulate_tty=True)
+
     return LaunchDescription([
         use_sim_time_arg,
         port_name_arg,
@@ -61,5 +67,6 @@ def generate_launch_description():
         simulated_robot_arg,
         sim_control_rate_arg,
         hunter_base_node,
-        velocity_extractor_node
+        velocity_extractor_node,
+        hunter_state_parser_node
     ])

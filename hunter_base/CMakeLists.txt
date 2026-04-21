@@ -61,7 +61,11 @@ add_executable(velocity_extractor_node
     src/velocity_extractor_node.cpp)
 ament_target_dependencies(velocity_extractor_node rclcpp std_msgs hunter_msgs)
 
-install(TARGETS hunter_base_node velocity_extractor_node
+add_executable(hunter_state_parser_node
+    src/hunter_state_parser_node.cpp)
+ament_target_dependencies(hunter_state_parser_node rclcpp std_msgs hunter_msgs)
+
+install(TARGETS hunter_base_node velocity_extractor_node hunter_state_parser_node
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch
