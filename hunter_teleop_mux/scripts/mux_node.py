@@ -4,7 +4,7 @@ from rclpy.node import Node
 from rclpy.parameter import Parameter
 from rcl_interfaces.msg import SetParametersResult
 from geometry_msgs.msg import Twist
-from teleop_bot_msgs.msg import EStopStatus, CmdMode, MuxStatus
+from teleop_rover_msgs.msg import EStopStatus, CmdMode, MuxStatus
 import time
 from typing import cast
 
