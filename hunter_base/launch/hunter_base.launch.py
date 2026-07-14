@@ -29,11 +29,24 @@ def generate_launch_description():
     sim_control_rate_arg = DeclareLaunchArgument('control_rate', default_value='50',
                                                  description='Simulation control loop update rate')
     
+    # hunter_base SIGABRTs (ugv_sdk std::terminate) if can0 is down —
+    # exactly what killed the 2026-07-14 field run 0.2 s after launch.
+    # Bring the interface up if needed (sudoers.d/scv-can0 allows this
+    # exact command without a password), then start the driver delayed.
+    can0_up = ExecuteProcess(
+        cmd=['bash', '-c',
+             'ip link show can0 2>/dev/null | grep -q "state UP" || '
+             'sudo -n /usr/sbin/ip link set can0 up type can bitrate 500000 || '
+             'echo "[hunter_base.launch] ERROR: can0 DOWN and bring-up failed — hunter_base will not survive"'],
+        output='screen')
+
     hunter_base_node = launch_ros.actions.Node(
         package='hunter_base',
         executable='hunter_base_node',
         output='screen',
         emulate_tty=True,
+        respawn=True,
+        respawn_delay=2.0,
         parameters=[{
                 'use_sim_time': launch.substitutions.LaunchConfiguration('use_sim_time'),
                 'port_name': launch.substitutions.LaunchConfiguration('port_name'),
@@ -66,7 +79,8 @@ def generate_launch_description():
         publish_tf_arg,
         simulated_robot_arg,
         sim_control_rate_arg,
-        hunter_base_node,
+        can0_up,
+        launch.actions.TimerAction(period=2.0, actions=[hunter_base_node]),
         velocity_extractor_node,
         hunter_state_parser_node
     ])
